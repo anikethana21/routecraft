@@ -1,7 +1,6 @@
 import React from 'react';
 import { BookOpen, History, Monitor, Moon, Sun, Terminal } from 'lucide-react';
 import { useApp } from '../state/AppContext';
-import { LogoMark } from './Logo';
 
 function hostLabel(value: string): string {
   try {
@@ -27,7 +26,6 @@ export const TopBar: React.FC = () => {
     <header className="topbar">
       <div className="topbar-inner">
         <button type="button" className="brand" onClick={goLanding} title="RouteCraft home" data-testid="brand">
-          <LogoMark size={29} />
           <span className="brand-name">RouteCraft</span>
           <span className="brand-version">v2</span>
         </button>

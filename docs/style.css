@@ -49,8 +49,8 @@ html {
 body {
   margin: 0;
   background:
-    radial-gradient(circle at 12% -10%, rgba(47, 111, 235, 0.16), transparent 36rem),
-    radial-gradient(circle at 88% 4%, rgba(109, 162, 255, 0.1), transparent 30rem),
+    radial-gradient(circle at 12% -10%, rgba(109, 58, 237, 0.16), transparent 36rem),
+    radial-gradient(circle at 88% 4%, rgba(167, 139, 250, 0.12), transparent 30rem),
     var(--bg);
   color: var(--text);
   font-family: var(--font);
@@ -114,9 +114,8 @@ kbd {
 }
 
 .site-header {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 24px 28px;
+  width: 100%;
+  padding: 18px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -131,10 +130,6 @@ kbd {
   text-decoration: none;
   font-weight: 700;
   letter-spacing: -0.02em;
-}
-
-.brand img {
-  border-radius: 8px;
 }
 
 .version {
@@ -239,12 +234,12 @@ h1 {
 .button.primary {
   background: linear-gradient(140deg, var(--accent), var(--accent-strong));
   color: #fff;
-  box-shadow: 0 12px 28px rgba(47, 111, 235, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow: 0 12px 28px rgba(109, 58, 237, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .button.primary:hover {
   color: #fff;
-  box-shadow: 0 16px 34px rgba(47, 111, 235, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow: 0 16px 34px rgba(109, 58, 237, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .button.secondary {
@@ -475,9 +470,8 @@ h1 {
 }
 
 footer {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 28px;
+  width: 100%;
+  padding: 22px;
   border-top: 1px solid var(--line-soft);
   display: flex;
   flex-wrap: wrap;

@@ -430,9 +430,8 @@ select.input {
   align-items: center;
   gap: 16px;
   height: 56px;
-  max-width: 1360px;
-  margin: 0 auto;
-  padding: 0 22px;
+  width: 100%;
+  padding: 0 16px;
 }
 
 .brand {
