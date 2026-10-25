@@ -404,8 +404,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     if (booted.current) return;
     booted.current = true;
-    // The userscript mounts hidden on every page. Wait for its launcher to
-    // open the app, then load a detected spec or the last spec.
+    // The userscript mounts hidden on every page. Wait for the Alt+Shift+S
+    // shortcut to open the app, then load a detected spec or the last spec.
     if (isUserScriptMode()) return;
     const params = new URLSearchParams(window.location.search);
     const urlParam = params.get('url');
@@ -431,7 +431,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (saved) void loadUrl(saved.value);
   }, [loadUrl]);
 
-  // The userscript launcher communicates with the hidden app through this
+  // The userscript overlay communicates with the hidden app through this
   // event. A detected spec URL wins; otherwise reopen the last spec.
   useEffect(() => {
     if (!isUserScriptMode()) return;

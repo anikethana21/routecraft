@@ -85,7 +85,7 @@ This is the install path that does not need a Chrome Web Store developer account
    <https://anikethana21.github.io/routecraft/routecraft.user.js>
 
 3. Start the demo APIs you need below. The authenticated To-Do demo is the best end-to-end test.
-4. Open <http://127.0.0.1:8012/docs>, <http://127.0.0.1:8010/docs>, <http://127.0.0.1:8011/docs> or <http://127.0.0.1:8013/docs> (or the `/rc` shortcut on any demo), then click the floating **RouteCraft** button or press **Alt+Shift+S**. The spec is detected automatically.
+4. Open <http://127.0.0.1:8012/docs>, <http://127.0.0.1:8010/docs>, <http://127.0.0.1:8011/docs> or <http://127.0.0.1:8013/docs> (or the `/rc` shortcut on any demo), then press **Alt+Shift+S**. The spec is detected automatically.
 5. In the To-Do demo, click **Authorize**, use the password flow with `demo` / `demo123`, and try the full CRUD list. For the status demos, try `GET /status/{code}` with `418` or `GET /items`.
 
 The userscript is self-contained: the React app, styles and OpenAPI engine are inside `routecraft.user.js`. It does not need the extension, a hosted backend or a store listing.
@@ -185,7 +185,7 @@ GitHub Pages is the published userscript distribution. The `@updateURL` and `@do
    <https://anikethana21.github.io/routecraft/routecraft.user.js>
 
 3. Tampermonkey shows the install screen. Click **Install**.
-4. Open an API docs page, or any page where you want to test an API. Click the floating **RouteCraft** button in the bottom-right corner, or press **Alt+Shift+S**.
+4. Open an API docs page, or any page where you want to test an API, and press **Alt+Shift+S**.
 5. If the page is Swagger UI, Redoc, FastAPI `/docs` or another page with a discoverable spec link, the spec loads automatically. Otherwise paste a spec URL on the landing screen.
 
 Press **Esc** or the **Close** button to dismiss the overlay. The app stays mounted, so reopening it keeps the current spec, response and history.

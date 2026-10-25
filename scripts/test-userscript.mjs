@@ -132,7 +132,7 @@ try {
 
   await page.goto(`${apiOrigin}/docs`, { waitUntil: 'domcontentloaded' });
   await page.addScriptTag({ content: source });
-  await page.getByRole('button', { name: 'Open RouteCraft' }).waitFor({ timeout: 15000 });
+  await page.waitForFunction(() => !!document.getElementById('routecraft-userscript-host'), null, { timeout: 15000 });
 
   const directFetch = await page.evaluate(async (target) => {
     try {
@@ -147,7 +147,7 @@ try {
   }
   console.log('Direct browser fetch:', directFetch.slice(0, 80));
 
-  await page.getByRole('button', { name: 'Open RouteCraft' }).click();
+  await page.keyboard.press('Alt+Shift+S');
   await page.getByTestId('spec-title').waitFor({ timeout: 20000 });
   const title = (await page.getByTestId('spec-title').textContent())?.trim();
   if (!title?.includes('FastAPI Demo')) {
@@ -202,17 +202,16 @@ try {
   await page.keyboard.press('Escape');
   const hidden = await page.evaluate(() => {
     const host = document.getElementById('routecraft-userscript-host');
-    const launcher = document.getElementById('routecraft-userscript-launcher-host');
     return {
       host: host ? getComputedStyle(host).display : 'missing',
-      launcher: launcher ? getComputedStyle(launcher).display : 'missing',
+      launcher: document.getElementById('routecraft-userscript-launcher-host') ? 'present' : 'missing',
       roots: host?.shadowRoot?.querySelectorAll('#root').length ?? 0,
     };
   });
-  if (hidden.host !== 'none' || hidden.launcher === 'none' || hidden.roots !== 1) {
+  if (hidden.host !== 'none' || hidden.launcher !== 'missing' || hidden.roots !== 1) {
     throw new Error(`Unexpected overlay state after close: ${JSON.stringify(hidden)}`);
   }
-  console.log('Closed overlay; single app root remains:', hidden.roots);
+  console.log('Closed overlay; single app root remains, no floating launcher:', hidden.roots);
 
   if (errors.length) throw new Error(`Page errors: ${errors.join(' | ')}`);
   console.log('Userscript smoke test passed.');

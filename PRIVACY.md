@@ -50,7 +50,7 @@ The extension injects no content scripts, loads no remote code and makes no requ
 
 ## Tampermonkey userscript
 
-- The userscript runs on pages you visit so that its floating launcher is available. It does not read or transmit page content.
+- The userscript runs on pages you visit so that its keyboard shortcut and overlay are available. It does not read or transmit page content.
 - It uses `@connect *` because the user chooses arbitrary API and specification URLs.
 - It stores settings and history with `GM_getValue` / `GM_setValue`, or browser local storage if Tampermonkey storage is unavailable.
 - It injects the app into an isolated shadow root. It does not modify the page's DOM outside that overlay.
