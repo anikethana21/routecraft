@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "routecraft": {
+      "command": "node",
+      "args": ["mcp/server.mjs"]
+    }
+  }
+}
+

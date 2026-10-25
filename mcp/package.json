@@ -1,0 +1,51 @@
+{
+  "name": "routecraft-mcp",
+  "version": "0.1.0",
+  "description": "MCP server that opens RouteCraft in a browser and gives AI agents a zero-CORS OpenAPI console.",
+  "type": "module",
+  "bin": {
+    "routecraft-mcp": "./server.mjs"
+  },
+  "files": [
+    "server.mjs",
+    "README.md",
+    "LICENSE",
+    "dist/index.html",
+    "dist/assets/**",
+    "dist/icons/**",
+    "dist/theme-init.js",
+    "skill/**"
+  ],
+  "scripts": {
+    "start": "node server.mjs",
+    "prepack": "node ../scripts/package-mcp.mjs --quiet"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "openapi",
+    "swagger",
+    "api",
+    "testing",
+    "ai-agents"
+  ],
+  "homepage": "https://github.com/anikethana21/routecraft#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anikethana21/routecraft.git",
+    "directory": "mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/anikethana21/routecraft/issues"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  }
+}
+

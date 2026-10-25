@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RouteCraft</title>
+    <link rel="icon" type="image/png" href="./icons/icon48.png" />
+    <script src="./theme-init.js"></script>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <main class="popup">
+      <header class="header">
+        <img class="logo" src="./icons/icon48.png" alt="" width="34" height="34" />
+        <div class="heading">
+          <h1>RouteCraft</h1>
+          <p>Read the docs. Send the request.</p>
+        </div>
+      </header>
+
+      <button id="open-app" class="primary" type="button">
+        <span>Open RouteCraft</span>
+        <span class="arrow" aria-hidden="true">&#8594;</span>
+      </button>
+
+      <section id="current" class="current" hidden>
+        <p class="eyebrow">Current tab</p>
+        <button id="open-current" class="current-button" type="button">
+          <span class="current-label">Open this API</span>
+          <span id="current-origin" class="current-origin"></span>
+        </button>
+      </section>
+
+      <form id="quick-open" class="quick" autocomplete="off">
+        <label for="target">Port or spec URL</label>
+        <div class="input-row">
+          <input
+            id="target"
+            name="target"
+            type="text"
+            spellcheck="false"
+            placeholder="8010 or localhost:8010"
+          />
+          <button type="submit" class="go">Open</button>
+        </div>
+        <p class="hint">
+          Add <code>-H "Authorization: Bearer ..."</code> for a protected spec.
+        </p>
+      </form>
+
+      <section id="recent" class="recent" hidden>
+        <p class="eyebrow">Recent</p>
+        <div id="recent-list" class="recent-list"></div>
+      </section>
+
+      <p id="error" class="error" role="alert" hidden></p>
+
+      <footer class="footer">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Zero-CORS requests are on</span>
+        <span class="footer-hint">Address bar: <code>os 8010</code></span>
+      </footer>
+    </main>
+    <script src="./popup.js"></script>
+  </body>
+</html>

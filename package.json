@@ -1,0 +1,51 @@
+{
+  "name": "routecraft",
+  "private": true,
+  "version": "2.3.1",
+  "type": "module",
+  "description": "RouteCraft — a fast, clean OpenAPI explorer with a built-in request console.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:extension": "node scripts/test-extension.mjs",
+    "test:userscript": "node scripts/test-userscript.mjs",
+    "test:mcp": "node scripts/test-mcp.mjs",
+    "test:demos": "node scripts/test-demos.mjs",
+    "test:todo": "node scripts/test-todo.mjs",
+    "test:surface": "npm run test:extension && npm run test:userscript && npm run test:mcp",
+    "test:all": "npm run test && npm run build && npm run build:userscript && npm run test:e2e && npm run test:extension && npm run test:userscript && npm run test:mcp && npm run test:todo",
+    "mcp": "node mcp/server.mjs",
+    "demo:todo": "python demos/todo/main.py",
+    "build:userscript": "node scripts/build-userscript.mjs",
+    "pages:build": "npm run build && npm run build:userscript && node scripts/build-pages.mjs",
+    "fixtures": "node tests/api/make-fixtures.mjs",
+    "api": "node tests/api/server.mjs",
+    "package:extension": "node scripts/package-extension.mjs",
+    "package:mcp": "npm run build && node scripts/package-mcp.mjs",
+    "store:assets": "node scripts/build-promo-assets.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "lucide-react": "^1.61.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "archiver": "^8.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}
+

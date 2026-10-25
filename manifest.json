@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "RouteCraft",
+  "version": "2.3.1",
+  "description": "Read any OpenAPI spec and send requests from the same page. A clean Swagger UI with a built-in API console.",
+  "permissions": ["tabs", "sidePanel", "storage"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "RouteCraft",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "omnibox": {
+    "keyword": "rc"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
+

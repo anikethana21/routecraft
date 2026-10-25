@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: Django Shop API
+  version: 3.1.0
+  description: Storefront API produced by drf-spectacular.
+servers:
+  - url: http://localhost:4010/api
+    description: API root
+tags:
+  - name: orders
+  - name: products
+paths:
+  /products/:
+    get:
+      tags:
+        - products
+      summary: List products
+      responses:
+        "200":
+          description: Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+  /orders/:
+    post:
+      tags:
+        - orders
+      summary: Place an order
+      security:
+        - jwtAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - items
+              properties:
+                items:
+                  type: array
+                  minItems: 1
+                  items:
+                    type: object
+                    required:
+                      - product
+                      - quantity
+                    properties:
+                      product:
+                        type: integer
+                      quantity:
+                        type: integer
+                        minimum: 1
+                        maximum: 99
+                coupon:
+                  type: string
+      responses:
+        "201":
+          description: Order created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Bad request
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        price:
+          type: number
+          format: double
+          minimum: 0
+        currency:
+          type: string
+          default: USD
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+        total:
+          type: number
+        status:
+          type: string
+          enum:
+            - pending
+            - paid
+            - shipped
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+

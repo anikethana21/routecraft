@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RouteCraft — API docs you can run</title>
+  <meta name="description" content="A clean OpenAPI 2.0, 3.0 and 3.1 explorer with a built-in request console. Install the free Tampermonkey userscript or open the hosted web app.">
+  <link rel="icon" href="./icon128.png" type="image/png">
+  <link rel="apple-touch-icon" href="./icon128.png">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a class="skip-link" href="#install">Skip to install</a>
+
+  <header class="site-header">
+    <a class="brand" href="./">
+      <img src="./icon128.png" width="28" height="28" alt="RouteCraft">
+      <span>RouteCraft</span>
+      <span class="version">v2.3.1</span>
+    </a>
+    <nav aria-label="Main">
+      <a href="#install">Install</a>
+      <a href="./app/">Web app</a>
+      <a href="https://github.com/anikethana21/routecraft">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <img class="hero-logo" src="./logo-full.png" alt="RouteCraft — a spaceship flying over a highway loop" width="1400" height="781">
+      <p class="eyebrow">OpenAPI 2.0 · 3.0 · 3.1</p>
+      <h1>Swagger docs you can actually send.</h1>
+      <p class="lede">A clean OpenAPI explorer with a built-in request console. Install the userscript once and it overlays any <code>/docs</code> page with a zero-CORS API client.</p>
+
+      <div class="actions">
+        <a class="button primary" href="./routecraft.user.js">Install userscript</a>
+        <a class="button secondary" href="./app/">Open web app</a>
+      </div>
+      <p class="hint">Works with Tampermonkey, Violentmonkey or Userscripts. No store account, payment card, backend or analytics.</p>
+
+      <div class="screenshot-frame">
+        <img src="./screenshot-light.png" alt="RouteCraft documentation view with endpoint cards, Try it out, and inline Execute controls">
+      </div>
+    </section>
+
+    <section class="section" id="install">
+      <div class="section-heading">
+        <p class="kicker">Install</p>
+        <h2>Four steps. No build tools.</h2>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <span class="step-number">1</span>
+          <div>
+            <h3>Install a userscript manager</h3>
+            <p>Use <a href="https://www.tampermonkey.net/">Tampermonkey</a>, Violentmonkey, or Userscripts on Safari.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-number">2</span>
+          <div>
+            <h3>Open the install URL</h3>
+            <p>Click <strong>Install</strong> on the userscript screen. GitHub Pages serves the current <code>routecraft.user.js</code> directly.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-number">3</span>
+          <div>
+            <h3>Open your API docs</h3>
+            <p>Swagger UI, Redoc and FastAPI <code>/docs</code> pages are detected automatically.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-number">4</span>
+          <div>
+            <h3>Press Alt+Shift+S</h3>
+            <p>Or click the floating <strong>RouteCraft</strong> button. Browse, authorize and send without leaving the page.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="install-box">
+        <span class="install-label">Install URL</span>
+        <code>https://anikethana21.github.io/routecraft/routecraft.user.js</code>
+        <a class="button primary small" href="./routecraft.user.js">Open install URL</a>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="kicker">What you get</p>
+        <h2>Docs and requests in one place.</h2>
+        <ul class="features">
+          <li>
+            <strong>OpenAPI 2.0, 3.0 and 3.1</strong>
+            <span>JSON or YAML from a URL, file or pasted text, with recursive <code>$ref</code> resolution.</span>
+          </li>
+          <li>
+            <strong>Swagger UI-style Try it out</strong>
+            <span>Enable an operation, fill its inputs, then Execute. Path, query, header and cookie parameters, request bodies, auth and response inspection.</span>
+          </li>
+          <li>
+            <strong>Response examples and schemas</strong>
+            <span>Pick a media type and switch between Example Value and Schema for every declared response.</span>
+          </li>
+          <li>
+            <strong>Zero-CORS transport</strong>
+            <span><code>GM_xmlhttpRequest</code> reaches localhost and APIs that do not send CORS headers.</span>
+          </li>
+          <li>
+            <strong>Auth and history</strong>
+            <span>Bearer, Basic, API key, OAuth 2.0 and OpenID Connect, plus replayable request history.</span>
+          </li>
+          <li>
+            <strong>Code generation</strong>
+            <span>cURL, fetch, Axios, Python, Go, PHP, Ruby, Java, C#, HTTPie and PowerShell.</span>
+          </li>
+          <li>
+            <strong>Quiet interface</strong>
+            <span>Swagger UI-style docs, light/dark themes, responsive layout and keyboard send.</span>
+          </li>
+        </ul>
+      </div>
+      <figure class="dark-card">
+        <img src="./screenshot-dark.png" alt="RouteCraft request console showing a response and generated code">
+        <figcaption>The request console keeps the response, headers and generated code together.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="kicker">Three surfaces</p>
+        <h2>Use the one that fits.</h2>
+      </div>
+      <div class="three-up">
+        <article>
+          <h3>Userscript</h3>
+          <p>The fastest path. Injects the full app into any page and uses <code>GM_xmlhttpRequest</code> for zero-CORS requests.</p>
+          <a href="./routecraft.user.js">Install</a>
+        </article>
+        <article>
+          <h3>Hosted web app</h3>
+          <p>Open the app directly on GitHub Pages. Direct browser requests still follow the API's CORS policy.</p>
+          <a href="./app/">Open app</a>
+        </article>
+        <article>
+          <h3>Chrome extension</h3>
+          <p>The optional MV3 build adds a toolbar popup, current-tab launch and the <code>rc</code> address-bar shortcut.</p>
+          <a href="https://github.com/anikethana21/routecraft/tree/main/extension">View source</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <p class="kicker">Ready when you are</p>
+      <h2>Try it on your own spec.</h2>
+      <p>Install the userscript, open your Swagger UI or FastAPI <code>/docs</code> page, then press <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>.</p>
+      <div class="actions">
+        <a class="button primary" href="./routecraft.user.js">Install userscript</a>
+        <a class="button secondary" href="https://github.com/anikethana21/routecraft">View source</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>RouteCraft · MIT · No analytics or hosted backend.</p>
+    <p><a href="https://github.com/anikethana21/routecraft">GitHub</a> · <a href="https://github.com/anikethana21/routecraft/blob/main/README.md">README</a> · <a href="https://github.com/anikethana21/routecraft/issues">Issues</a></p>
+  </footer>
+</body>
+</html>

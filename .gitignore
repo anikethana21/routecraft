@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build output and packaged extensions
+dist/
+dist-userscript/
+demos/java/bin/
+*.zip
+
+# MCP package staging (created by npm run package:mcp)
+mcp/dist/
+mcp/LICENSE
+mcp/skill/
+mcp/*.tgz
+
+# Python demo caches
+__pycache__/
+*.pyc
+.venv/
+
+# Test output
+playwright-report/
+test-results/
+coverage/
+.extension-profile/
+
+# Local environment
+.env
+.env.local
+.env.*.local
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

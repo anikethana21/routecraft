@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: Express Users API
+  version: 2.4.1
+  description: Users service generated with swagger-jsdoc.
+servers:
+  - url: http://localhost:4010
+    description: Local
+tags:
+  - name: users
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: List users
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: role
+          in: query
+          schema:
+            type: string
+            enum:
+              - admin
+              - member
+      responses:
+        "200":
+          description: Users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+              examples:
+                twoUsers:
+                  summary: Two users
+                  value:
+                    - id: u_1
+                      name: Ada
+                      role: admin
+                    - id: u_2
+                      name: Linus
+                      role: member
+    post:
+      tags:
+        - users
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "201":
+          description: Created
+        "409":
+          description: Email already registered
+  /users/{id}:
+    patch:
+      tags:
+        - users
+      summary: Update a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: Updated user
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/User"
+                  - $ref: "#/components/schemas/Guest"
+    delete:
+      tags:
+        - users
+      summary: Delete a user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - role
+      properties:
+        id:
+          type: string
+          example: u_1
+        name:
+          type: string
+        role:
+          type: string
+          enum:
+            - admin
+            - member
+        created_at:
+          type: string
+          format: date-time
+    UserInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum:
+            - admin
+            - member
+          default: member
+    Guest:
+      type: object
+      properties:
+        id:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+
