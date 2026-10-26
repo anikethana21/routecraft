@@ -144,7 +144,8 @@ async function checkUi(browser, demo) {
     await installShim(page);
     await page.goto(`${demo.origin}/docs`, { waitUntil: 'domcontentloaded' });
     await page.addScriptTag({ content: source });
-    await page.getByRole('button', { name: 'Open RouteCraft' }).click();
+    await page.waitForFunction(() => !!document.getElementById('routecraft-userscript-host'), null, { timeout: 15000 });
+    await page.keyboard.press('Alt+Shift+S');
     await page.getByTestId('spec-title').waitFor({ timeout: 20000 });
     const title = (await page.getByTestId('spec-title').textContent())?.trim();
     if (title !== demo.title) throw new Error(`${demo.name} UI loaded "${title}" instead of "${demo.title}".`);

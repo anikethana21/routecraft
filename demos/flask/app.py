@@ -34,6 +34,8 @@ def request_id() -> str:
 def add_headers(response: Response) -> Response:
     response.headers["X-Demo-Server"] = "flask:8013"
     response.headers["X-Request-Id"] = request_id()
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Expose-Headers"] = "X-Demo-Server, X-Request-Id"
     return response
 
 

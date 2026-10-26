@@ -1216,6 +1216,13 @@ def admin_clear_todos(user: AdminUser, owner: str | None = Query(default=None)) 
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
+@app.get("/rc", include_in_schema=False)
+def rc_redirect():
+    """Shortcut alias for /docs. Type /rc to load RouteCraft instantly."""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/docs")
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=PORT)
 
