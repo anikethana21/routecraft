@@ -467,7 +467,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // event. A detected spec URL wins; otherwise reopen the last spec.
   useEffect(() => {
     if (!isUserScriptMode()) return;
+    const host = window as unknown as {
+      __ROUTECRAFT_APP_READY__?: boolean;
+      __ROUTECRAFT_PENDING_OPEN__?: { url?: string };
+    };
     const onOpen = (event: Event) => {
+      delete host.__ROUTECRAFT_PENDING_OPEN__;
       const detail = (event as CustomEvent<{ url?: string }>).detail;
       const url = typeof detail?.url === 'string' ? detail.url.trim() : '';
       if (url) {
@@ -480,7 +485,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
     };
     window.addEventListener('routecraft:open', onOpen);
-    return () => window.removeEventListener('routecraft:open', onOpen);
+    host.__ROUTECRAFT_APP_READY__ = true;
+    // The launcher can fire before React attaches the listener. Consume the
+    // queued launch now that the app is ready.
+    const pending = host.__ROUTECRAFT_PENDING_OPEN__;
+    if (pending) onOpen(new CustomEvent('routecraft:open', { detail: pending }));
+    return () => {
+      window.removeEventListener('routecraft:open', onOpen);
+      host.__ROUTECRAFT_APP_READY__ = false;
+    };
   }, [loadUrl, spec]);
 
   const value: AppContextValue = {

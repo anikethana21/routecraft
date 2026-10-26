@@ -255,17 +255,25 @@ const wrapper = `(function () {
     appHost.style.display = 'block';
     document.documentElement.style.overflow = 'hidden';
 
+    var detail = null;
     if (detected && detected !== lastDetected) {
       lastDetected = detected;
       openedOnce = true;
-      window.setTimeout(function () {
-        window.dispatchEvent(new CustomEvent('routecraft:open', { detail: { url: detected } }));
-      }, 30);
+      detail = { url: detected };
     } else if (!openedOnce) {
       openedOnce = true;
-      window.setTimeout(function () {
-        window.dispatchEvent(new CustomEvent('routecraft:open'));
-      }, 30);
+      detail = {};
+    }
+    if (!detail) return;
+
+    var dispatchOpen = function () {
+      window.dispatchEvent(new CustomEvent('routecraft:open', { detail: detail }));
+    };
+    if (window.__ROUTECRAFT_APP_READY__) {
+      window.setTimeout(dispatchOpen, 30);
+    } else {
+      // React may still be attaching its listener. It consumes this on mount.
+      window.__ROUTECRAFT_PENDING_OPEN__ = detail;
     }
   }
 
