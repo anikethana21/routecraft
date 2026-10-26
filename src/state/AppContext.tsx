@@ -90,6 +90,8 @@ interface AppContextValue {
   composerDraft: RequestDraft;
   updateComposerDraft: (draft: RequestDraft) => void;
   loadHistoryIntoComposer: (entry: HistoryEntry) => void;
+  endpointFilter: string;
+  setEndpointFilter: (value: string) => void;
   loadUrl: (url: string, headers?: Record<string, string>) => Promise<void>;
   loadText: (text: string, label: string) => Promise<void>;
   loadFile: (file: File) => Promise<void>;
@@ -133,6 +135,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
   const [credentials, setCredentialsState] = useState<CredentialMap>({});
   const [serverOverride, setServerOverrideState] = useState<string | null>(null);
+  const [endpointFilter, setEndpointFilter] = useState('');
   const [focusOperation, setFocusOperation] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
@@ -149,6 +152,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
   const requestId = useRef(0);
   const booted = useRef(false);
+  const launchParams = useRef(new URLSearchParams(window.location.search));
+  const launchConsumed = useRef(false);
+  const autoComposerUrl = useRef('');
+  const composerUrlRef = useRef(composerDraft.url);
+  const lastSpecKeyRef = useRef('');
   const specHeadersRef = useRef(new Map<string, Record<string, string>>());
 
   const specKey = specKeyOf(source, spec);
@@ -176,13 +184,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const applyLoaded = useCallback((loaded: LoadedSpec, options: { keepView?: boolean } = {}) => {
     const key = loaded.source.url || loaded.source.value;
+    const isLaunchLoad = !launchConsumed.current;
+    launchConsumed.current = true;
     setSpec(loaded.spec);
     setSource(loaded.source);
     setError(null);
+    setEndpointFilter('');
     setCredentialsState(loadCredentials(key));
     if (!isUserScriptMode()) {
-      const params = new URLSearchParams(window.location.search);
-      const serverParam = params.get('server');
+      // `?server=` and `?operation=` belong to the launch URL only. Applying
+      // them to later pasted specs would pin the old port and operation.
+      const serverParam = isLaunchLoad ? launchParams.current.get('server') : null;
       if (serverParam) {
         // MCP and other launchers can override the spec's server for this tab.
         setServerOverrideState(serverParam);
@@ -190,7 +202,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       } else {
         setServerOverrideState(loadServerOverride(key));
       }
-      setFocusOperation(params.get('operation'));
+      if (isLaunchLoad) setFocusOperation(launchParams.current.get('operation'));
     } else {
       setServerOverrideState(loadServerOverride(key));
     }
@@ -207,17 +219,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         }),
       );
     }
-    // Give the request console a useful starting URL without overwriting a draft.
-    setComposerDraft((previous) => {
-      if (previous.url.trim()) return previous;
-      const firstServer = loaded.spec.servers[0];
-      const base = firstServer
-        ? resolveServerUrl(substituteServerVariables(firstServer), loaded.source.url)
-        : loaded.source.url
-          ? safeOrigin(loaded.source.url)
-          : '';
-      return base ? { ...previous, url: base } : previous;
-    });
+    // Follow the new spec's base URL in the request console unless the user
+    // has typed their own URL there. Decide outside the state updater so
+    // StrictMode's double invocation cannot corrupt the marker ref.
+    const isNewSpec = key !== lastSpecKeyRef.current;
+    lastSpecKeyRef.current = key;
+    const firstServer = loaded.spec.servers[0];
+    const base = firstServer
+      ? resolveServerUrl(substituteServerVariables(firstServer), loaded.source.url)
+      : loaded.source.url
+        ? safeOrigin(loaded.source.url)
+        : '';
+    if (base) {
+      const current = composerUrlRef.current.trim();
+      // Switching specs always follows the new spec's base. Reloading the
+      // same spec keeps a hand-edited request URL intact.
+      if (isNewSpec || !current || current === autoComposerUrl.current) {
+        autoComposerUrl.current = base;
+        composerUrlRef.current = base;
+        setComposerDraft((previous) => ({ ...previous, url: base }));
+      }
+    }
   }, []);
 
   const loadUrl = useCallback(async (url: string, headers?: Record<string, string>) => {
@@ -311,6 +333,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const setActiveServer = useCallback((url: string) => {
     setServerOverrideState(url);
     if (specKey) saveServerOverride(specKey, url || null);
+    if (!url) return;
+    const current = composerUrlRef.current.trim();
+    if (!current || current === autoComposerUrl.current) {
+      autoComposerUrl.current = url;
+      composerUrlRef.current = url;
+      setComposerDraft((previous) => ({ ...previous, url }));
+    }
   }, [specKey]);
 
   const clearFocusOperation = useCallback(() => setFocusOperation(null), []);
@@ -400,6 +429,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return () => clearTimeout(timer);
   }, [composerDraft]);
 
+  useEffect(() => {
+    composerUrlRef.current = composerDraft.url;
+  }, [composerDraft.url]);
   // Boot: explicit URL, tab origin, or the last spec.
   useEffect(() => {
     if (booted.current) return;
@@ -485,6 +517,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     composerDraft,
     updateComposerDraft,
     loadHistoryIntoComposer,
+    endpointFilter,
+    setEndpointFilter,
     loadUrl,
     loadText,
     loadFile,

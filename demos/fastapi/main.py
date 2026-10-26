@@ -77,7 +77,7 @@ def health() -> dict[str, Any]:
 def rc_redirect():
     """Shortcut alias for /docs. Type /rc to load RouteCraft instantly."""
     from fastapi.responses import RedirectResponse
-    return RedirectResponse(url="/docs")
+    return RedirectResponse(url="/docs?rc=1")
 
 
 @app.get("/codes", tags=["status codes"], summary="List testable status codes")

@@ -56,7 +56,7 @@ def health():
 @app.route("/rc", methods=["GET"])
 def rc_redirect():
     """Shortcut alias for /docs. Type /rc to load RouteCraft instantly."""
-    return redirect("/docs", code=302)
+    return redirect("/docs?rc=1", code=302)
 
 
 @app.route("/docs", methods=["GET"])

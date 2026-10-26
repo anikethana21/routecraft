@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Loader2, Search, X } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 import { SpecHeader } from './SpecHeader';
@@ -6,10 +6,9 @@ import { TagSection } from './TagSection';
 import { SchemasSection } from './SchemasSection';
 
 export const DocsView: React.FC = () => {
-  const { spec, resolver, loading, error, clearError } = useApp();
-  const [query, setQuery] = useState('');
+  const { spec, resolver, loading, error, clearError, endpointFilter, setEndpointFilter } = useApp();
 
-  const normalizedQuery = query.trim().toLowerCase();
+  const normalizedQuery = endpointFilter.trim().toLowerCase();
 
   const tags = useMemo(() => {
     if (!spec) return [];
@@ -79,29 +78,13 @@ export const DocsView: React.FC = () => {
               : `${spec.operations.length} endpoint${spec.operations.length === 1 ? '' : 's'}`}
           </span>
           {loading ? <Loader2 size={15} className="spin docs-spinner" /> : null}
-          <label className="search-field">
-            <Search size={15} />
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Filter endpoints"
-              spellCheck={false}
-              aria-label="Filter endpoints"
-              data-testid="endpoint-filter"
-            />
-            {query ? (
-              <button type="button" className="icon-btn is-subtle" onClick={() => setQuery('')} aria-label="Clear filter">
-                <X size={14} />
-              </button>
-            ) : null}
-          </label>
         </div>
 
         {tags.length === 0 ? (
           <div className="docs-empty">
             <Search size={22} />
-            <strong>No endpoints match “{query.trim()}”</strong>
-            <button type="button" className="text-btn" onClick={() => setQuery('')}>
+            <strong>No endpoints match “{endpointFilter.trim()}”</strong>
+            <button type="button" className="text-btn" onClick={() => setEndpointFilter('')}>
               Clear the filter
             </button>
           </div>

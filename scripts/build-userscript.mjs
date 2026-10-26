@@ -97,6 +97,28 @@ const wrapper = `(function () {
   window.__ROUTECRAFT_SHADOW_ROOT__ = shadow;
   document.documentElement.appendChild(appHost);
 
+  // /rc redirects to /docs?rc=1 so the overlay can open itself. Wait until
+  // React has rendered before dispatching, otherwise the open event is lost.
+  try {
+    var launchParams = new URLSearchParams(window.location.search);
+    if (launchParams.get('rc') === '1' || launchParams.get('routecraft') === '1') {
+      launchParams.delete('rc');
+      launchParams.delete('routecraft');
+      var launchQuery = launchParams.toString();
+      history.replaceState(null, '', location.pathname + (launchQuery ? '?' + launchQuery : '') + location.hash);
+      var autoOpenTries = 0;
+      var autoOpenWhenReady = function () {
+        autoOpenTries += 1;
+        if (root.childElementCount > 0 || autoOpenTries > 100) {
+          openApp();
+          return;
+        }
+        window.setTimeout(autoOpenWhenReady, 50);
+      };
+      window.setTimeout(autoOpenWhenReady, 40);
+    }
+  } catch (error) { /* ignore launch params */ }
+
   function toHeaders(raw) {
     var headers = {};
     String(raw || '').split(/\\r?\\n/).forEach(function (line) {

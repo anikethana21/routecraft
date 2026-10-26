@@ -185,7 +185,7 @@ export const SpecHeader: React.FC = () => {
         </div>
 
         <div className="spec-links">
-          {servers[0]?.description ? (
+          {servers[0]?.description && servers[0].description !== 'Spec origin' ? (
             <span className="spec-server-desc">
               <Globe2 size={12} /> {servers[0].description}
             </span>

@@ -130,9 +130,10 @@ try {
     };
   });
 
-  await page.goto(`${apiOrigin}/docs`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${apiOrigin}/docs?rc=1`, { waitUntil: 'domcontentloaded' });
   await page.addScriptTag({ content: source });
   await page.waitForFunction(() => !!document.getElementById('routecraft-userscript-host'), null, { timeout: 15000 });
+  if (page.url().includes('rc=1')) throw new Error('The rc launch parameter was not cleaned from the URL.');
 
   const directFetch = await page.evaluate(async (target) => {
     try {
@@ -147,13 +148,12 @@ try {
   }
   console.log('Direct browser fetch:', directFetch.slice(0, 80));
 
-  await page.keyboard.press('Alt+Shift+S');
   await page.getByTestId('spec-title').waitFor({ timeout: 20000 });
   const title = (await page.getByTestId('spec-title').textContent())?.trim();
   if (!title?.includes('FastAPI Demo')) {
     throw new Error(`Auto-detected the wrong spec: ${title}`);
   }
-  console.log('Auto-detected spec:', title);
+  console.log('Auto-opened from /rc and detected spec:', title);
 
   // Theme variables must be scoped to the shadow host, not the page's html.
   await page.getByTestId('theme-toggle').click();
@@ -212,6 +212,14 @@ try {
     throw new Error(`Unexpected overlay state after close: ${JSON.stringify(hidden)}`);
   }
   console.log('Closed overlay; single app root remains, no floating launcher:', hidden.roots);
+
+  await page.keyboard.press('Alt+Shift+S');
+  await page.waitForFunction(() => {
+    const host = document.getElementById('routecraft-userscript-host');
+    return Boolean(host) && getComputedStyle(host).display !== 'none';
+  }, null, { timeout: 5000 });
+  console.log('Alt+Shift+S reopened the overlay');
+  await page.keyboard.press('Escape');
 
   if (errors.length) throw new Error(`Page errors: ${errors.join(' | ')}`);
   console.log('Userscript smoke test passed.');

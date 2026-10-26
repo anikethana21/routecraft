@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, History, Monitor, Moon, Sun, Terminal } from 'lucide-react';
+import { BookOpen, History, Monitor, Moon, Search, Sun, Terminal, X } from 'lucide-react';
 import { useApp } from '../state/AppContext';
 
 function hostLabel(value: string): string {
@@ -12,7 +12,18 @@ function hostLabel(value: string): string {
 }
 
 export const TopBar: React.FC = () => {
-  const { view, setView, spec, source, goLanding, openHistory, theme, setTheme } = useApp();
+  const {
+    view,
+    setView,
+    spec,
+    source,
+    goLanding,
+    openHistory,
+    theme,
+    setTheme,
+    endpointFilter,
+    setEndpointFilter,
+  } = useApp();
   const hasSpec = Boolean(spec);
   const showTabs = hasSpec || view === 'composer';
 
@@ -59,6 +70,29 @@ export const TopBar: React.FC = () => {
         ) : null}
 
         <div className="topbar-actions">
+          {view === 'docs' && hasSpec ? (
+            <label className="topbar-search">
+              <Search size={14} />
+              <input
+                value={endpointFilter}
+                onChange={(event) => setEndpointFilter(event.target.value)}
+                placeholder="Filter endpoints"
+                spellCheck={false}
+                aria-label="Filter endpoints"
+                data-testid="endpoint-filter"
+              />
+              {endpointFilter ? (
+                <button
+                  type="button"
+                  className="icon-btn is-subtle"
+                  onClick={() => setEndpointFilter('')}
+                  aria-label="Clear filter"
+                >
+                  <X size={13} />
+                </button>
+              ) : null}
+            </label>
+          ) : null}
           <button
             type="button"
             className="icon-btn"

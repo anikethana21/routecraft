@@ -1220,7 +1220,7 @@ def admin_clear_todos(user: AdminUser, owner: str | None = Query(default=None)) 
 def rc_redirect():
     """Shortcut alias for /docs. Type /rc to load RouteCraft instantly."""
     from fastapi.responses import RedirectResponse
-    return RedirectResponse(url="/docs")
+    return RedirectResponse(url="/docs?rc=1")
 
 
 if __name__ == "__main__":

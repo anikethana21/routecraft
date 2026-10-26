@@ -74,7 +74,7 @@ public final class RouteCraftJavaDemo {
                 sendJson(exchange, 200, healthJson());
             } else if (path.equals("/rc")) {
                 requireMethod(exchange, "GET");
-                exchange.getResponseHeaders().set("Location", "/docs");
+                exchange.getResponseHeaders().set("Location", "/docs?rc=1");
                 exchange.sendResponseHeaders(302, -1);
             } else if (path.equals("/docs")) {
                 requireMethod(exchange, "GET");
